@@ -6,7 +6,7 @@ if (!connectionString) {
     throw new Error("Database is not connected");
 };
 
-const pool = new Pool({
+export const pool = new Pool({
     connectionString
 });
 

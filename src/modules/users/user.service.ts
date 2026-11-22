@@ -13,6 +13,12 @@ const createUserToDB = async (payload: IUser) => {
     return user;
 }
 
+const getUsersFromDB = async () => {
+    return await pool.query(`
+        SELECT * FROM users;
+        `)
+}
+
 export const userService = {
-    createUserToDB
+    createUserToDB, getUsersFromDB
 }

@@ -47,6 +47,12 @@ const updateUserFromDB = async (payload: IUser, id: string) => {
             `, [name ?? null, password ?? null, age ?? null, is_active ?? null, role ?? null, id])
 }
 
+const deleteUserFromDB = async (id: string) => {
+    return await pool.query(`
+            DELETE FROM users WHERE id=$1
+            `, [id])
+}
+
 export const userService = {
-    createUserToDB, getUsersFromDB, getUserFromDB, updateUserFromDB
+    createUserToDB, getUsersFromDB, getUserFromDB, updateUserFromDB, deleteUserFromDB
 }

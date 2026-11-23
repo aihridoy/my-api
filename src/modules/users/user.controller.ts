@@ -30,7 +30,7 @@ const createUser = async (req: Request, res: Response) => {
 const getUsers = async (req: Request, res: Response) => {
     try {
         const result = await userService.getUsersFromDB();
-        console.log(result)
+
         sendResponse(res, {
             status: 200,
             success: true,
@@ -40,7 +40,35 @@ const getUsers = async (req: Request, res: Response) => {
     } catch (error: any) {
         sendResponse(res, {
             status: 500,
+            success: false,
+            message: error?.message,
+            data: error
+        })
+    }
+}
+
+const getUser = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const result = await userService.getUserFromDB(id as string);
+
+        if (result.rowCount === 0) {
+            return sendResponse(res, {
+                status: 404,
+                success: false,
+                message: "User not found"
+            })
+        }
+        sendResponse(res, {
+            status: 200,
             success: true,
+            message: "User retrieved",
+            data: result.rows[0]
+        })
+    } catch (error: any) {
+        sendResponse(res, {
+            status: 500,
+            success: false,
             message: error?.message,
             data: error
         })
@@ -48,5 +76,5 @@ const getUsers = async (req: Request, res: Response) => {
 }
 
 export const userController = {
-    createUser, getUsers
+    createUser, getUsers, getUser
 }

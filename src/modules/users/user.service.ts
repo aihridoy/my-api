@@ -19,6 +19,18 @@ const getUsersFromDB = async () => {
         `)
 }
 
+const getUserFromDB = async (id: string) => {
+    const user = await pool.query(`
+        SELECT * FROM users WHERE id=$1
+        `, [id]);
+
+    // if (user.rowCount === 0) {
+    //     throw new Error("User not found")
+    // }
+
+    return user;
+}
+
 export const userService = {
-    createUserToDB, getUsersFromDB
+    createUserToDB, getUsersFromDB, getUserFromDB
 }

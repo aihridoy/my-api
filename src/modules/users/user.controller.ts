@@ -75,6 +75,26 @@ const getUser = async (req: Request, res: Response) => {
     }
 }
 
+const updateUser = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const result = await userService.updateUserFromDB(req.body, id as string)
+        sendResponse(res, {
+            status: 201,
+            success: true,
+            message: "User updated",
+            data: result.rows[0]
+        })
+    } catch (error: any) {
+        sendResponse(res, {
+            status: 500,
+            success: false,
+            message: error?.message,
+            data: error
+        })
+    }
+}
+
 export const userController = {
-    createUser, getUsers, getUser
+    createUser, getUsers, getUser, updateUser
 }

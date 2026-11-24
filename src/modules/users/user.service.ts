@@ -9,7 +9,7 @@ const createUserToDB = async (payload: IUser) => {
 
     const user = await pool.query(`
         INSERT INTO users (name, email, password, age, role) VALUES
-        ($1,$2,$3,$4,$5) RETURNING *
+        ($1,$2,$3,$4,COALESCE($5, 'user')) RETURNING *
         `, [name, email, hashedPass, age, role]);
 
     delete user.rows[0].password;

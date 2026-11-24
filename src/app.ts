@@ -1,7 +1,9 @@
 import express, { type Application, type Request, type Response } from "express";
+import cookieParser from 'cookie-parser';
 import { globalErrorHandler } from "./middlewares/globalErrorHandler.js";
 import { userRoute } from "./modules/users/user.route.js";
 import { profileRoute } from "./modules/profile/profile.route.js";
+import { authRoute } from "./modules/auth/auth.route.js";
 
 export const app: Application = express();
 
@@ -9,9 +11,11 @@ export const app: Application = express();
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/profiles", profileRoute);
+app.use("/api/v1/auth", authRoute);
 
 app.use(globalErrorHandler);
 
